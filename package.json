@@ -1,0 +1,22 @@
+{
+  "name": "TechCrunchHackathon",
+  "version": "0.0.1",
+  "description": "Tech crunch app. Originally hosted on Bluemix",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "cfenv": "1.0.x",
+    "express": "4.12.x",
+    "mongoose": "^4.2.9",
+    "twilio": "^2.6.0",
+    "watson-developer-cloud": "^1.0.5"
+  },
+  "repository": {},
+  "engines": {
+    "node": "0.12.x"
+  }
+}
+
+        

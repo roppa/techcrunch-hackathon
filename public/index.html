@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Boom</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  </head>
+
+  <body>
+    <table>
+      <tr>
+        <td>
+            <h1>What show are you in the mood for?</h1>
+            <p id="show"></p>
+        </td>
+        <tr>
+          <td>
+            <h1></span>Or, text how you feel (0 - 100) to 0157 5730007</h1>
+          </td>
+        </tr>
+      </tr>
+
+<!--       <tr>
+        <td>
+          <h1>Or let us take a look at your 'boat race'</h1>
+          <video id="video" width="640" height="480" autoplay></video>
+          <canvas id="canvas" width="640" height="480"></canvas>
+          <button id="snap">Take Photo</button>
+          <button id="submitPhoto" style="display: none">Send Photo</button>
+        </td>
+      </tr> -->
+      
+    </table>
+  </body>
+
+  <script>
+
+  var $body = document.querySelector('body');
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+
+  var emotion = 50;
+
+  var rWidth = width / 255;
+  var rHeight = height / 255;
+
+  var r = 0;
+  var g = 0;
+  var b = 0;
+  var temp = 0;
+
+  var $show = $('#show');
+
+  document.addEventListener('mousemove', function (event) {
+    r = Math.floor((width - event.x) / rWidth);
+    g = Math.floor((height - event.y) / rHeight);
+    temp = r - g;
+    if (r <= g) {
+      b = g + temp;
+    } else {
+      b = r + temp
+    }
+    $body.style.backgroundColor = '#' + r.toString(16) + g.toString(16) + b.toString(16);
+    emotion = Math.floor( ( ((r + g + b) / 3) / 255 ) * 100);
+  });
+
+  document.addEventListener('click', function () {
+    $.get("/emotion/" + emotion, function(data) {
+      if (data.name) {
+        $show.html('(' + emotion + '/100)' + ' ' + data.name);
+      }
+    });
+  });
+
+  // //video
+  // // Put event listeners into place
+  // window.addEventListener("DOMContentLoaded", function() {
+  //   // Grab elements, create settings, etc.
+  //   var canvas = document.getElementById("canvas"),
+  //     context = canvas.getContext("2d"),
+  //     video = document.getElementById("video"),
+  //     videoObj = { "video": true },
+  //     errBack = function(error) {
+  //       console.log("Video capture error: ", error.code); 
+  //     };
+
+  //   // Put video listeners into place
+  //   if(navigator.getUserMedia) { // Standard
+  //     navigator.getUserMedia(videoObj, function(stream) {
+  //       video.src = stream;
+  //       video.play();
+  //     }, errBack);
+  //   } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+  //     navigator.webkitGetUserMedia(videoObj, function(stream){
+  //       video.src = window.webkitURL.createObjectURL(stream);
+  //       video.play();
+  //     }, errBack);
+  //   }
+  //   else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+  //     navigator.mozGetUserMedia(videoObj, function(stream){
+  //       video.src = window.URL.createObjectURL(stream);
+  //       video.play();
+  //     }, errBack);
+  //   }
+
+  //   //trigger the photo
+  //   document.getElementById("snap").addEventListener("click", function() {
+  //     context.drawImage(video, 0, 0, 640, 480);
+  //     $('#submitPhoto').show();
+  //   });
+
+  //   $('#submitPhoto').on("click", function() {
+  
+  //     return false;
+  //   });
+
+  // }, false);
+
+  </script>
+
+</html>
